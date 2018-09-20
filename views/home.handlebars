@@ -1,0 +1,48 @@
+ <div class="container">
+    <div class="row">
+      <div class="twelve columns">
+        <h3>Registration Numbers</h3>
+        <form action='/registration' method='post'>
+        Registration number <input class="input" placeholder="'eg CA 234 345'" type="text" name="" value="">
+        <button class="bttn" type="submit" name="">ADD</button>
+        <button class="reset">Reset</button>
+      </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="three columns">
+        <label class='line'>
+          <input type="radio" name="towns" value="Cape Town">
+          <span class="bellville">Cape Town</span>
+        </label>
+      </div>
+      <div class="three columns">
+          <label class='line'>
+            <input type="radio" name="towns" value="Bellville">
+            <span class="bellville">Bellville</span>
+          </label>
+        </div>
+        <div class="three columns">
+            <label class='line'>
+              <input type="radio" name="towns" value="Malmesbury">
+              <span class="malmesbury">Malmesbury</span>
+            </label>
+          </div>
+          <div class="three columns">
+              <label class='line'>
+                <input type="radio" name="towns" value="Worcester">
+                <span class="worcester">Worcester</span>
+              </label>
+            </div>
+    </div>
+    <div class="row">
+      <div class="twelve columns" id="errors">
+        <p></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="twelve columns" id="messages">
+        <p>CA 235-984</p>
+      </div>
+    </div>
+  </div>
