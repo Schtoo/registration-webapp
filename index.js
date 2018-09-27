@@ -4,21 +4,21 @@ const express = require('express');
 const app = express();
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-const regNumbers = require('./reg.js');
+const RegNumbers = require('./reg');
 const flash = require('express-flash');
 const session = require('express-session');
 
 const pg = require('pg');
 const Pool = pg.Pool;
 
-// should we use a SSL connection
+// should use a SSL connection
 let useSSL = false;
 let local = process.env.LOCAL || false;
 if (process.env.DATABASE_URL && !local) {
     useSSL = true;
 }
 // which db connection to use
-const connectionString = process.env.DATABASE_URL || 'postgres://coder:pg123@localhost:5432/greeted_users';
+const connectionString = process.env.DATABASE_URL || 'postgres://coder:pg123@localhost:5432/reg_numbers';
 
 const pool = new Pool({
     connectionString,
@@ -26,7 +26,7 @@ const pool = new Pool({
 });
 
 // creating instance of factory function
-let regInstance = regNumbers(pool);
+let regInstance = RegNumbers(pool);
 
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'
@@ -48,17 +48,43 @@ app.use(session({
 
 app.use(flash());
 
-app.get('/', async function(){
-    let registrations = {
-        reg: await regInstance.takeRegNumber(),
-    }
-    res.render('home', {
-        registrations
-    });
+app.get('/', async function (req, res) {
+    res.render('home');
 });
 
-let PORT = process.env.PORT || 3020;
+app.post('/reg_numbers', async function (req, res, next) {
 
-app.listen(PORT, function(){
+    try {
+        //console.log(req.body.numberplate)
+        await regInstance.takeRegNumber(req.body.numberplate)
+    
+        res.redirect('/')
+        
+    } catch (error) {
+        next(error)
+    }
+
+    let registration = {
+        regist: await regInstance.takeRegNumber(plate)
+    }
+    res.redirect('/');
+});
+
+// app.get('/reg_numbers', async function (req, res) {
+//         let plate = req.body.numberplate;
+//         let registrations = {
+//             reg: await regInstance.takeRegNumber(plate)
+//         }
+//         if (plate === '' || plate === undefined) {
+//             req.flash('info', 'Please a valid registration number')
+//         }
+//     res.render('home', {
+//         registrations
+//     });
+// });
+
+let PORT = process.env.PORT || 3011;
+
+app.listen(PORT, function () {
     console.log('App successfully starting on port', PORT);
 });
