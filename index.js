@@ -40,34 +40,33 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+app.use(flash());
+
 app.use(session({
     secret: "<add a secret string here>",
     resave: false,
     saveUninitialized: true
 }));
 
-app.use(flash());
 
-app.get('/', async function (req, res) {
-    res.render('home');
-});
-
-app.post('/reg_numbers', async function (req, res, next) {
-
+app.get('/', async function (req, res, next) {
     try {
-        //console.log(req.body.numberplate)
-        await regInstance.takeRegNumber(req.body.numberplate)
-    
-        res.redirect('/')
-        
+        let registrationList = await regInstance.getRegPlate()
+        console.log(registrationList)
+        res.render('home', registrationList);  
     } catch (error) {
         next(error)
     }
+});
 
-    let registration = {
-        regist: await regInstance.takeRegNumber(plate)
+app.post('/reg_numbers', async function (req, res, next) {
+    try {
+        console.log(req.body.numberplate)
+        await regInstance.takeRegNumber(req.body.numberplate)
+        res.redirect('/');      
+    } catch (error) {
+        next(error)
     }
-    res.redirect('/');
 });
 
 // app.get('/reg_numbers', async function (req, res) {
@@ -83,7 +82,7 @@ app.post('/reg_numbers', async function (req, res, next) {
 //     });
 // });
 
-let PORT = process.env.PORT || 3011;
+let PORT = process.env.PORT || 3010;
 
 app.listen(PORT, function () {
     console.log('App successfully starting on port', PORT);

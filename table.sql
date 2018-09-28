@@ -1,4 +1,4 @@
-drop table if exits towns, plates;
+drop table if exists towns, plates cascade;
 create table towns(
     id serial not null primary key,
     town_name text not null unique,
@@ -7,7 +7,7 @@ create table towns(
 
 create table plates(
     id serial not null primary key,
-    numbers int,
+    registration text,
     towns_id int,
     foreign key(towns_id) references towns(id)
 );

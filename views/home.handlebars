@@ -3,7 +3,7 @@
       <div class="twelve columns">
         <h3>Registration Numbers</h3>
         <form action="/reg_numbers" method='post'>
-        Registration number <input class="input" placeholder="'eg CA 234 345'" name="numberplate" value="">
+        Registration number <input class="input" placeholder="'eg CA 234 345'" name="numberplate" maxlength="10" value="">
         <button class="bttn" type="submit" name="button">ADD</button>
         </form>
       </div>
@@ -27,7 +27,9 @@
     </div>
     <div class="row">
       <div class="twelve columns" id="messages">
-        <p>{{registrations.regist}}</p>
+        {{#each registrationList}}
+        <p>{{registration}}</p>
+        {{/each}}
       </div>
     </div>
   </div>
