@@ -48,12 +48,11 @@ app.use(session({
     saveUninitialized: true
 }));
 
-
 app.get('/', async function (req, res, next) {
     try {
         let registrationList = await regInstance.getRegPlate()
-        console.log(registrationList)
-        res.render('home', registrationList);  
+        console.log(registrationList);
+        res.render('home', {registrationList});
     } catch (error) {
         next(error)
     }
@@ -61,26 +60,18 @@ app.get('/', async function (req, res, next) {
 
 app.post('/reg_numbers', async function (req, res, next) {
     try {
-        console.log(req.body.numberplate)
+        //console.log(req.body.numberplate)
         await regInstance.takeRegNumber(req.body.numberplate)
-        res.redirect('/');      
+        res.redirect('/'); 
     } catch (error) {
         next(error)
     }
 });
 
-// app.get('/reg_numbers', async function (req, res) {
-//         let plate = req.body.numberplate;
-//         let registrations = {
-//             reg: await regInstance.takeRegNumber(plate)
-//         }
-//         if (plate === '' || plate === undefined) {
-//             req.flash('info', 'Please a valid registration number')
-//         }
-//     res.render('home', {
-//         registrations
-//     });
-// });
+app.get('/reseting', async function(req, res){
+    await regInstance.resetDb();
+    res.redirect('/');
+});
 
 let PORT = process.env.PORT || 3010;
 
