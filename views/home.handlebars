@@ -26,10 +26,10 @@
       {{/if}}
     </div>
     <div class="row">
+      {{#each registrationList}}
       <div class="twelve columns" id="messages">
-        {{#each registrationList}}
         <p>{{registration}}</p>
-        {{/each}}
       </div>
+        {{/each}}
     </div>
   </div>

@@ -11,11 +11,11 @@
      background-color: #9A0E2A;
  }
 #messages {
-    border-style: solid;
-    border-color: black;
-    border-radius: 8em;
+    border: 3px solid black;
+    width: 15%;
+    border-radius: 10em;
     background-color: yellow;
     text-align: center;
-    width: 10%;
+    height: 2em;
     margin-top: 10%;
 }
