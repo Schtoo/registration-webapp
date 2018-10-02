@@ -1,6 +1,5 @@
 .container {
-    padding: 0;
-    margin: auto;
+    text-align: center;
 }
  .bttn {
     color: #FFF;
@@ -9,13 +8,14 @@
  .reset {
      color: #FFF;
      background-color: #9A0E2A;
+     margin-bottom: 8rem;
  }
 #messages {
     border: 3px solid black;
-    width: 15%;
-    border-radius: 10em;
+    width: 10em;
+    border-radius: 6px;
     background-color: yellow;
     text-align: center;
     height: 2em;
-    margin-top: 10%;
+    margin: 5px;
 }

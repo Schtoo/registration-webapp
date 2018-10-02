@@ -52,6 +52,9 @@ app.get('/', async function (req, res, next) {
     try {
         let registrationList = await regInstance.getRegPlate()
         console.log(registrationList);
+        if(registrationList.registration === '' || registrationList.registration === undefined){
+            req.flash('info', 'Please enter a valid registration number')
+        } 
         res.render('home', {registrationList});
     } catch (error) {
         next(error)
