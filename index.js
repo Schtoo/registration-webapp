@@ -51,11 +51,10 @@ app.use(session({
 app.get('/', async function (req, res, next) {
     try {
         let registrationList = await regInstance.getRegPlate()
-        console.log(registrationList);
-        if(registrationList.registration === '' || registrationList.registration === undefined){
-            req.flash('info', 'Please enter a valid registration number')
-        } 
-        res.render('home', {registrationList});
+        //console.log(registrationList);
+        res.render('home', {
+            registrationList
+        });
     } catch (error) {
         next(error)
     }
@@ -63,7 +62,6 @@ app.get('/', async function (req, res, next) {
 
 app.post('/reg_numbers', async function (req, res, next) {
     try {
-        //console.log(req.body.numberplate)
         await regInstance.takeRegNumber(req.body.numberplate)
         res.redirect('/'); 
     } catch (error) {
@@ -76,6 +74,21 @@ app.get('/reseting', async function(req, res){
     res.redirect('/');
 });
 
+app.post('/town', async function(req, res){
+    let capeTown = await regInstance.forCpt()
+    console.log(capeTown);
+    res.render('home', {
+        capeTown
+    });
+});
+
+app.post('/', async function(req, res){
+    res.render('home')
+});
+
+app.post('/', async function(req, res){
+    res.render('home')
+});
 let PORT = process.env.PORT || 3010;
 
 app.listen(PORT, function () {

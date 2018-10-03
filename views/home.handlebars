@@ -3,20 +3,22 @@
       <div class="twelve columns">
         <h3>Registration Numbers</h3>
         <form action="/reg_numbers" method='post'>
-        Registration <input class="input" placeholder="'eg CA 234 345'" name="numberplate" maxlength="10" value="">
+        Registration <input class="input" id='search' placeholder="'eg CA 234 345'" name="numberplate" maxlength="10" value="">
         <button class="bttn" type="submit" name="button">ADD</button>
         </form>
       </div>
     </div>
     <div class="row">
+      <div class='twelve columns' id='city'>
       <select>
         <option value="all">All</option>
-        <option value="cpt">Cape Town</option>
-        <option value="malmsebury">Malmesbury</option>
-        <option value="worcester">Worcester</option>
-        <option value="bellville">Bellville</option>
+        <option value="ca">Cape Town</option>
+        <option value="ck">Malmesbury</option>
+        <option value="cw">Worcester</option>
+        <option value="cy">Bellville</option>
       </select>
       <a href='/reseting'><button class="reset">Reset</button></a>
+      </div>
     </div>
     <div class="row">
       {{#if message.info}}
@@ -26,10 +28,15 @@
       {{/if}}
     </div>
     <div class="row">
+      <form action='/town' method='post'>
       {{#each registrationList}}
       <div class="twelve columns" id="messages">
         {{registration}}
       </div>
         {{/each}}
+        </form>
     </div>
+    <script src=''>
+
+    </script>
   </div>
