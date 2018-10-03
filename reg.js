@@ -19,34 +19,16 @@ module.exports = function (pool) {
     return reset;
   }
 //filter Functions for towns
-  async function forCpt() {
-    let cape = await pool.query("SELECT * FROM plates WHERE towns_id='1'");
-    console.log(cape);
+  async function forTowns() {
+    let cape = await pool.query("SELECT * FROM plates");
+    console.log(cape.rows);
     return cape.rows;
-  }
-
-  async function forBellville() {
-    let bell = await pool.query("SELECT * FROM plates WHERE towns_id='2'");
-    return bell.rows;
-  }
-
-  async function forWorcester() {
-    let worce = await pool.query("SELECT * FROM plates WHERE towns_id='3'");
-    return worce.rows;
-  }
-
-  async function forMalmesbury() {
-    let malmes = await pool.query("SELECT * FROM plates WHERE towns_id='4'");
-    return malmes.rows;
   }
 
   return {
     takeRegNumber,
     resetDb,
     getRegPlate,
-    forCpt,
-    forBellville,
-    forWorcester,
-    forMalmesbury
+    forTowns
   }
 }

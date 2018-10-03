@@ -51,7 +51,6 @@ app.use(session({
 app.get('/', async function (req, res, next) {
     try {
         let registrationList = await regInstance.getRegPlate()
-        //console.log(registrationList);
         res.render('home', {
             registrationList
         });
@@ -75,7 +74,8 @@ app.get('/reseting', async function(req, res){
 });
 
 app.post('/town', async function(req, res){
-    let capeTown = await regInstance.forCpt()
+    let towns = req.body.townId
+    let capeTown = await regInstance.forTowns(towns)
     console.log(capeTown);
     res.render('home', {
         capeTown
