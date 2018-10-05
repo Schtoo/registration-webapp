@@ -50,9 +50,11 @@ app.use(session({
 
 app.get('/', async function (req, res, next) {
     try {
-        let registrationList = await regInstance.getRegPlate()
+        let registrationList = await regInstance.getRegPlate();
+       let allTowns = await regInstance.forTowns()
         res.render('home', {
-            registrationList
+            registrationList,
+           allTowns
         });
     } catch (error) {
         next(error)
@@ -62,31 +64,56 @@ app.get('/', async function (req, res, next) {
 app.post('/reg_numbers', async function (req, res, next) {
     try {
         await regInstance.takeRegNumber(req.body.numberplate)
-        res.redirect('/'); 
+        res.redirect('/');
     } catch (error) {
         next(error)
     }
 });
 
-app.get('/reseting', async function(req, res){
+app.post('/town', async function (req, res, next) {
+    try {
+        let town = req.body.townRegNo;
+        console.log(town);
+        
+        res.redirect('/town/' +town);
+    } catch (error) {
+        next(error)
+    }
+});
+
+// app.get('/town', async function (req, res, next) {
+//     try{
+//         let plates = req.body.townId;
+//         let allPlates = await regInstance.allRegNumbers(plates);
+//         res.render('home', {
+//             allPlates
+//         })
+//     } catch (error) {
+//         next(error)
+//     }
+// })
+
+app.get('/town/:whichTown', async function (req, res, next){
+    try{
+        let {whichTown} = req.params;
+        //console.log(whichTown);
+        let allTowns = await regInstance.forTowns();
+        let registrationList = await regInstance.townFilter(whichTown);
+        res.render('home', {
+            registrationList,
+            allTowns
+        })
+    } catch (error) {
+        next(error)
+    }
+});
+
+app.get('/reseting', async function (req, res) {
     await regInstance.resetDb();
     res.redirect('/');
 });
 
-app.post('/town', async function(req, res){
-    let towns = req.body.townId
-    let capeTown = await regInstance.forTowns(towns)
-    console.log(capeTown);
-    res.render('home', {
-        capeTown
-    });
-});
-
-app.post('/', async function(req, res){
-    res.render('home')
-});
-
-app.post('/', async function(req, res){
+app.post('/', async function (req, res) {
     res.render('home')
 });
 let PORT = process.env.PORT || 3010;
