@@ -51,7 +51,15 @@ app.use(session({
 app.get('/', async function (req, res, next) {
     try {
         let registrationList = await regInstance.getRegPlate();
+        console.log('REG LIST :'+registrationList);
        let allTowns = await regInstance.forTowns()
+       console.log('TOWNS :'+allTowns);
+       
+      if(registrationList === '' || registrationList === undefined){
+          req.flash('info', 'not a valid registration numberplate')
+      } else if (registrationList){
+          req.flash('info', 'registration number successfully added');
+      }
         res.render('home', {
             registrationList,
            allTowns
@@ -64,6 +72,7 @@ app.get('/', async function (req, res, next) {
 app.post('/reg_numbers', async function (req, res, next) {
     try {
         await regInstance.takeRegNumber(req.body.numberplate)
+
         res.redirect('/');
     } catch (error) {
         next(error)
@@ -73,32 +82,24 @@ app.post('/reg_numbers', async function (req, res, next) {
 app.post('/town', async function (req, res, next) {
     try {
         let town = req.body.townRegNo;
-        console.log(town);
-        
+        //console.log(town);
         res.redirect('/town/' +town);
     } catch (error) {
         next(error)
     }
 });
 
-// app.get('/town', async function (req, res, next) {
-//     try{
-//         let plates = req.body.townId;
-//         let allPlates = await regInstance.allRegNumbers(plates);
-//         res.render('home', {
-//             allPlates
-//         })
-//     } catch (error) {
-//         next(error)
-//     }
-// })
-
 app.get('/town/:whichTown', async function (req, res, next){
     try{
         let {whichTown} = req.params;
-        //console.log(whichTown);
         let allTowns = await regInstance.forTowns();
         let registrationList = await regInstance.townFilter(whichTown);
+        if(registrationList) {
+            await regInstance.forTowns();
+            req.flash('info', 'registration successfully added');
+        } else if (!registrationList) {
+            req.flash('info', 'please enter a valid registration')
+        }
         res.render('home', {
             registrationList,
             allTowns
