@@ -8,12 +8,12 @@ module.exports = function (pool) {
       await pool.query('INSERT INTO plates (registration, towns_id) values ($1, $2)', [regPlate, townId.rows[0].id]);
     }
   }
-  //Get registration
+  //Getting the registration number
   async function getRegPlate() {
     let getPlates = await pool.query('SELECT * FROM plates');
     return getPlates.rows;
   }
-//reset database 
+//reseting the database 
   async function resetDb() {
     let reset = await pool.query('DELETE FROM plates');
     return reset;
@@ -21,21 +21,16 @@ module.exports = function (pool) {
 //Filter Function for all towns
   async function forTowns() {
     let city = await pool.query("SELECT * FROM towns");
-   //console.log(city.rows);
     return city.rows;
   }
 
-  async function allRegNumbers () {
-    let regNumbs = await pool.query('SELECT * FROM plates');
-    return regNumbs.rows;
-  }
 //Filtering for specific town
   async function townFilter (regNo) {
     let regTown = regNo.substr(0, 3).trim();
     let result = await pool.query('SELECT id FROM towns WHERE starts_with=$1', [regTown]);
     //console.log(result);
     let reg = await pool.query('SELECT registration FROM plates WHERE towns_id=$1', [result.rows[0].id]);
-    console.log(reg);
+   // console.log(reg);
     return reg.rows;
   }
 
@@ -44,7 +39,6 @@ module.exports = function (pool) {
     resetDb,
     getRegPlate,
     forTowns,
-    allRegNumbers,
     townFilter
   }
 }
