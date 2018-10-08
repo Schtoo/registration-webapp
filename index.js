@@ -51,15 +51,9 @@ app.use(session({
 app.get('/', async function (req, res, next) {
     try {
         let registrationList = await regInstance.getRegPlate();
-        console.log('REG LIST :'+registrationList);
-       let allTowns = await regInstance.forTowns()
-       console.log('TOWNS :'+allTowns);
-       
-      if(registrationList === '' || registrationList === undefined){
-          req.flash('info', 'not a valid registration numberplate')
-      } else if (registrationList){
-          req.flash('info', 'registration number successfully added');
-      }
+        //let regList = JSON.stringify(registrationList);
+       let allTowns = await regInstance.forTowns();
+       //console.log(allTowns);
         res.render('home', {
             registrationList,
            allTowns
@@ -71,8 +65,7 @@ app.get('/', async function (req, res, next) {
 
 app.post('/reg_numbers', async function (req, res, next) {
     try {
-        await regInstance.takeRegNumber(req.body.numberplate)
-
+        await regInstance.takeRegNumber(req.body.numberplate);
         res.redirect('/');
     } catch (error) {
         next(error)
@@ -82,9 +75,17 @@ app.post('/reg_numbers', async function (req, res, next) {
 app.post('/town', async function (req, res, next) {
     try {
         let town = req.body.townRegNo;
-        //console.log(town);
         res.redirect('/town/' +town);
     } catch (error) {
+        next(error)
+    }
+});
+
+app.post('/town', async function (req, res, next) {
+    try{
+        let everyTown = await regInstance.getRegPlate()
+        res.redirect('/')
+    } catch(error) {
         next(error)
     }
 });
