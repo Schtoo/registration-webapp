@@ -43,6 +43,7 @@ module.exports = function (pool) {
       return reg.rows;
     }
   }
+
   return {
     takeRegNumber,
     resetDb,

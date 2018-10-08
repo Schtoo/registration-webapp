@@ -12,7 +12,7 @@ create table plates(
     foreign key(towns_id) references towns(id)
 );
 
-INSERT INTO towns (town_name, starts_with) values ('Cape Town', 'ca');
-INSERT INTO towns (town_name, starts_with) values('Worcester', 'cw');
-INSERT INTO towns (town_name, starts_with) values('Bellville', 'cy');
-INSERT INTO towns (town_name, starts_with) values('Malmesbury', 'ck');
+INSERT INTO towns (town_name, starts_with) values ('Cape Town', 'CA');
+INSERT INTO towns (town_name, starts_with) values('Worcester', 'CW');
+INSERT INTO towns (town_name, starts_with) values('Bellville', 'CY');
+INSERT INTO towns (town_name, starts_with) values('Malmesbury', 'CK');

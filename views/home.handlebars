@@ -7,19 +7,20 @@
           value="">
         <button class="bttn" type="submit" name="button">ADD</button>
       </form>
+      <hr>
     </div>
   </div>
   <div class="row">
     <div class='twelve columns' id='city'>
 
-      <form action="/town" method="POST">
-        <select name="townId" >
-          <option value="all">All</option>
-          {{#each capeTown}}
-          <option value="{{id}}">{{town_name}}</option>
+      <form action="/town/{{plates}}" method="POST">
+        <select name="townRegNo">
+          <option value="All">All</option>
+          {{#each allTowns}}
+          <option value="{{starts_with}}">{{town_name}}</option>
           {{/each}}
         </select>
-        <button type="submit">Filter</button>
+        <button type="submit" id='filter'>Filter</button>
       </form>
 
       <a href='/reseting'><button class="reset">Reset</button></a>
@@ -33,10 +34,13 @@
     {{/if}}
   </div>
   <div class="row">
+    <p>{{registrationList.registration}}</p>
+     
       {{#each registrationList}}
       <div class="twelve columns" id="messages">
         {{registration}}
       </div>
       {{/each}}
   </div>
+  <footer>Done @ Cwenga Mgqobozi</footer>
 </div>
