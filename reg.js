@@ -1,11 +1,13 @@
 module.exports = function (pool) {
   // Adding the registration number
   async function takeRegNumber(regPlate) {
-    let whichTown = regPlate.substr(0, 3).trim();
+    let whichTown = regPlate.toUpperCase().substr(0, 3).trim();
+   // console.log(whichTown);
+    // let regex = whichTown./([c-y])\d\d\d-\d\d\d/;
     let result = await pool.query('SELECT * FROM plates WHERE registration=$1', [whichTown]);
-    if (result.rowCount === 0) {
-      let townId = await pool.query('SELECT id FROM towns WHERE starts_with=$1', [whichTown]);
-      await pool.query('INSERT INTO plates (registration, towns_id) values ($1, $2)', [regPlate, townId.rows[0].id]);
+     if (result.rowCount === 0) {
+        let townId = await pool.query('SELECT id FROM towns WHERE starts_with=$1', [whichTown]);
+        await pool.query('INSERT INTO plates (registration, towns_id) values ($1, $2)', [regPlate, townId.rows[0].id]);
     }
   }
     //Getting the registration number
@@ -30,9 +32,8 @@ module.exports = function (pool) {
     //console.log(city.rows);
     return city.rows;
   }
-
 //Filtering for specific town
-  async function townFilter (regNo) {
+  async function townFilter (regNo) {    
     if(regNo === 'All'){
       let allTowns = await pool.query("SELECT registration FROM plates");
       return allTowns.rows;

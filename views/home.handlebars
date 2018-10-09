@@ -3,7 +3,7 @@
     <div class="twelve columns">
       <h3>Registration Numbers</h3>
       <form action="/reg_numbers" method='post'>
-        Registration <input class="input" id='search' placeholder="'eg CA 234 345'" name="numberplate" maxlength="10"
+        Registration <input class="input" id='search' placeholder="eg CA 234 345" name="numberplate" maxlength="10"
           value="">
         <button class="bttn" type="submit" name="button">ADD</button>
       </form>
@@ -29,12 +29,10 @@
   <div class="row">
     {{#if message.info}}
     <div class="twelve columns" id="errors">
-      <p></p>
     </div>
     {{/if}}
   </div>
   <div class="row">
-    <p>{{registrationList.registration}}</p>
      
       {{#each registrationList}}
       <div class="twelve columns" id="messages">
@@ -42,5 +40,6 @@
       </div>
       {{/each}}
   </div>
+    <hr>
   <footer>Done @ Cwenga Mgqobozi</footer>
 </div>
