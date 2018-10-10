@@ -3,7 +3,7 @@
     <div class="twelve columns">
       <h3>Registration Numbers</h3>
       <form action="/reg_numbers" method='post'>
-        Registration <input class="input" id='search' placeholder="eg CA 234 345" name="numberplate" maxlength="10"
+        Registration <input pattern="/[A-Z]{2}\s\d{3}\W\d{3}|[A-Z]{2}\s\d{3}\W\d{3}|[A-Z]{2}\s\d{6}" class="input" id='search' placeholder="eg CA 234 345" name="numberplate" maxlength="10"
           value="">
         <button class="bttn" type="submit" name="button">ADD</button>
       </form>

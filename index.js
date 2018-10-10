@@ -51,9 +51,7 @@ app.use(session({
 app.get('/', async function (req, res, next) {
     try {
         let registrationList = await regInstance.getRegPlate();
-        //let regList = JSON.stringify(registrationList);
        let allTowns = await regInstance.forTowns();
-       //console.log(allTowns);
         res.render('home', {
             registrationList,
            allTowns

@@ -2,8 +2,6 @@ module.exports = function (pool) {
   // Adding the registration number
   async function takeRegNumber(regPlate) {
     let whichTown = regPlate.toUpperCase().substr(0, 3).trim();
-   // console.log(whichTown);
-    // let regex = whichTown./([c-y])\d\d\d-\d\d\d/;
     let result = await pool.query('SELECT * FROM plates WHERE registration=$1', [whichTown]);
      if (result.rowCount === 0) {
         let townId = await pool.query('SELECT id FROM towns WHERE starts_with=$1', [whichTown]);
