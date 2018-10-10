@@ -63,7 +63,9 @@ app.get('/', async function (req, res, next) {
 
 app.post('/reg_numbers', async function (req, res, next) {
     try {
-        await regInstance.takeRegNumber(req.body.numberplate);
+        let msg = await regInstance.takeRegNumber(req.body.numberplate);
+        req.flash('errors', msg);
+        req.flash('info', msg);
         res.redirect('/');
     } catch (error) {
         next(error)
@@ -93,12 +95,6 @@ app.get('/town/:whichTown', async function (req, res, next){
         let {whichTown} = req.params;
         let allTowns = await regInstance.forTowns();
         let registrationList = await regInstance.townFilter(whichTown);
-        if(registrationList) {
-            await regInstance.forTowns();
-            req.flash('info', 'registration successfully added');
-        } else if (!registrationList) {
-            req.flash('info', 'please enter a valid registration')
-        }
         res.render('home', {
             registrationList,
             allTowns

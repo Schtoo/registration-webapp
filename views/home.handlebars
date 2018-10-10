@@ -7,6 +7,13 @@
           value="">
         <button class="bttn" type="submit" name="button">ADD</button>
       </form>
+        <div class="row">
+    {{#if messages.errors}}
+    <div class="twelve columns" id="errors">
+      {{messages.errors}}
+    </div>
+    {{/if}}
+  </div>
       <hr>
     </div>
   </div>
@@ -25,12 +32,6 @@
 
       <a href='/reseting'><button class="reset">Reset</button></a>
     </div>
-  </div>
-  <div class="row">
-    {{#if message.info}}
-    <div class="twelve columns" id="errors">
-    </div>
-    {{/if}}
   </div>
   <div class="row">
      

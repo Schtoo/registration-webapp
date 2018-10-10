@@ -26,6 +26,9 @@ h3 {
     color: #9A0E2A;
     font-weight: bold;
 }
+#errors {
+    font-weight: bold;
+}
 #filter {
     color: #fff;
     background-color: #33C3F0;
