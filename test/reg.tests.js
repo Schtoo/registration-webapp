@@ -17,7 +17,7 @@ describe('Registrations', async function(){
         let noPlates = regNumbers(pool);
         await noPlates.takeRegNumber('CJ 987-321');
         let noAddedPlate = await noPlates.takeRegNumber('CJ 987-321');
-        assert.equal(noAddedPlate, 'Not a valid town');
+        assert.equal(noAddedPlate, 'No registration added');
     });
     beforeEach (async function(){
         await pool.query('delete from plates');

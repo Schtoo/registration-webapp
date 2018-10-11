@@ -11,7 +11,7 @@ module.exports = function (pool) {
       await pool.query('INSERT INTO plates (registration, towns_id) values ($1, $2)', [regPlate, result.rows[0].id]);
       return 'Registration successfully added';
     }
-    return 'Not a valid town';
+    return 'No registration added';
   }
   //Getting the registration number
   async function getRegPlate() {
