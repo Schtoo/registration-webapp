@@ -13,26 +13,57 @@ describe('Registrations', async function(){
     beforeEach (async function(){
          await pool.query('delete from plates');
       });
-    // it('should not give you a plate', async function (){
-    //     let noPlates = regNumbers(pool);
-    //     await noPlates.takeRegNumber();
-    //     let noAddedPlate = await noPlates.getRegPlate('')
-    //     assert.equal(noAddedPlate.registration, 'not a valid plate');
-    // });
-    it('should add a registration number', async function (){
-        let doublePlate = regNumbers(pool);
-        await doublePlate.takeRegNumber('CA 1523')
-        let duplicateReg = await doublePlate.getRegPlate();
-        assert.equal(duplicateReg[0].registration, 'CA 1523');
+    it('should give you an error if no plate is added', async function (){
+        let noPlates = regNumbers(pool);
+        await noPlates.takeRegNumber('CJ 987-321');
+        let noAddedPlate = await noPlates.takeRegNumber('CJ 987-321');
+        assert.equal(noAddedPlate, 'Not a valid town');
     });
+    beforeEach (async function(){
+        await pool.query('delete from plates');
+     });
+    it('should add a registration number', async function (){
+        let addPlate = regNumbers(pool);
+        await addPlate.takeRegNumber('CA 1523')
+        let regNum = await addPlate.getRegPlate();
+        assert.equal(regNum[0].registration, 'CA 1523');
+    });
+    beforeEach (async function(){
+        await pool.query('delete from plates');
+     });
     it('should give you towns from cape town only', async function(){
         let fromCpt = regNumbers(pool);
-        await fromCpt.forTowns(['CA 232 123', 'CA 123-123', 'CW 654321', 'CK 321 321']);
-       // console.log(fromCpt);
-        let cptReg = await fromCpt.townFilter(['CA 232 123', 'CA 123-123']);
-       // console.log(cptReg);
-        assert.equal(['CA 232 123', 'CA 123-123'], cptReg);
+        await fromCpt.takeRegNumber('CA 232 123, CA 123-123', 'CA');
+        let cptReg = await fromCpt.townFilter('CA');
+        assert.deepEqual(cptReg, [{ registration: 'CA 232 123, CA 123-123' }]);
     });
+    beforeEach (async function(){
+        await pool.query('delete from plates');
+     });
+     it('should give you registration numbers from Worcester', async function(){
+         let fromWorcester = regNumbers(pool);
+         await fromWorcester.takeRegNumber('CW 123 321, CW 321-321, CW 987256');
+         let Worcester = await fromWorcester.townFilter('CW');
+         assert.deepEqual(Worcester, [{registration: 'CW 123 321, CW 321-321, CW 987256'}])
+     });
+     beforeEach (async function(){
+        await pool.query('delete from plates');
+     });
+     it('should give you registration numbers from Bellville', async function(){
+         let fromWorcester = regNumbers(pool);
+         await fromWorcester.takeRegNumber('CY 123 321, CY 321-321, CY 987256');
+         let Worcester = await fromWorcester.townFilter('CY');
+         assert.deepEqual(Worcester, [{registration: 'CY 123 321, CY 321-321, CY 987256'}])
+     });
+     beforeEach (async function(){
+        await pool.query('delete from plates');
+     });
+     it('should give you registration numbers from Malmsebury', async function(){
+         let fromWorcester = regNumbers(pool);
+         await fromWorcester.takeRegNumber('CK 123 321, CK 321-543, CK 987659');
+         let Worcester = await fromWorcester.townFilter('CK');
+         assert.deepEqual(Worcester, [{registration: 'CK 123 321, CK 321-543, CK 987659'}]);
+     });
     it('should reset the entire database', async function(){
         let resetBtn = regNumbers(pool);
         let reset = await resetBtn.resetDb();
