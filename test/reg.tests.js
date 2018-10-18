@@ -35,7 +35,7 @@ describe('Registrations', async function(){
         let fromCpt = regNumbers(pool);
         await fromCpt.takeRegNumber('CA 232 123, CA 123-123', 'CA');
         let cptReg = await fromCpt.townFilter('CA');
-        assert.deepEqual(cptReg, [{ registration: 'CA 232 123, CA 123-123' }]);
+        assert.deepEqual(cptReg, {status:'success', results: [{registration: 'CA 232 123, CA 123-123'}]});
     });
     beforeEach (async function(){
         await pool.query('delete from plates');
@@ -43,8 +43,8 @@ describe('Registrations', async function(){
      it('should give you registration numbers from Worcester', async function(){
          let fromWorcester = regNumbers(pool);
          await fromWorcester.takeRegNumber('CW 123 321, CW 321-321, CW 987256');
-         let Worcester = await fromWorcester.townFilter('CW');
-         assert.deepEqual(Worcester, [{registration: 'CW 123 321, CW 321-321, CW 987256'}])
+         let Worcester = await fromWorcester.townFilter('CW');  
+         assert.deepEqual(Worcester,{status: 'success', results: [{registration: 'CW 123 321, CW 321-321, CW 987256'}]});
      });
      beforeEach (async function(){
         await pool.query('delete from plates');
@@ -52,8 +52,8 @@ describe('Registrations', async function(){
      it('should give you registration numbers from Bellville', async function(){
          let fromWorcester = regNumbers(pool);
          await fromWorcester.takeRegNumber('CY 123 321, CY 321-321, CY 987256');
-         let Worcester = await fromWorcester.townFilter('CY');
-         assert.deepEqual(Worcester, [{registration: 'CY 123 321, CY 321-321, CY 987256'}])
+         let Bellville = await fromWorcester.townFilter('CY');
+         assert.deepEqual(Bellville, {status: 'success', results: [{registration: 'CY 123 321, CY 321-321, CY 987256'}]})
      });
      beforeEach (async function(){
         await pool.query('delete from plates');
@@ -61,8 +61,8 @@ describe('Registrations', async function(){
      it('should give you registration numbers from Malmsebury', async function(){
          let fromWorcester = regNumbers(pool);
          await fromWorcester.takeRegNumber('CK 123 321, CK 321-543, CK 987659');
-         let Worcester = await fromWorcester.townFilter('CK');
-         assert.deepEqual(Worcester, [{registration: 'CK 123 321, CK 321-543, CK 987659'}]);
+         let Malmsebury = await fromWorcester.townFilter('CK');
+         assert.deepEqual(Malmsebury, {status: 'success', results: [{registration: 'CK 123 321, CK 321-543, CK 987659'}]});
      });
     it('should reset the entire database', async function(){
         let resetBtn = regNumbers(pool);

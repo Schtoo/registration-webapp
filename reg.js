@@ -36,7 +36,7 @@ module.exports = function (pool) {
       return {
         status: "success",
         results : allTowns.rows
-      };
+      }
     }else{
       let regTown = regNo.substr(0, 3).trim();
       let result = await pool.query('SELECT id FROM towns WHERE starts_with=$1', [regTown]);
@@ -46,6 +46,7 @@ module.exports = function (pool) {
           status: "success",
           results: reg.rows
         }
+        
       }else{
         return {
           status: "error",

@@ -20,14 +20,14 @@
   <div class="row">
     <div class='twelve columns' id='city'>
 
-      <form action="/town/{{plates}}" method="POST">
+      <form action="/town/{{plates}}" method="POST" onsumit="return false">
         <select name="townRegNo">
           <option value="All">All</option>
           {{#each allTowns}}
           <option value="{{starts_with}}">{{town_name}}</option>
           {{/each}}
         </select>
-        <button type="submit" id='filter'>Filter</button>
+        <button type="submit" id='filter' onclick="">Filter</button>
       </form>
 
       <a href='/reseting'><button class="reset">Reset</button></a>

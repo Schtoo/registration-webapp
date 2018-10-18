@@ -65,7 +65,6 @@ app.post('/reg_numbers', async function (req, res, next) {
     try {
         let msg = await regInstance.takeRegNumber(req.body.numberplate);
         req.flash('errors', msg);
-        //req.flash('info', msg);
         res.redirect('/');
     } catch (error) {
         next(error)
@@ -101,7 +100,6 @@ app.get('/town/:whichTown', async function (req, res, next){
         if (response.status === 'error') {
             req.flash('errors', response.message);
         }
-        
         res.render('home', {
             registrationList,
             allTowns
@@ -116,9 +114,6 @@ app.get('/reseting', async function (req, res) {
     res.redirect('/');
 });
 
-app.post('/', async function (req, res) {
-    res.render('home')
-});
 let PORT = process.env.PORT || 3010;
 
 app.listen(PORT, function () {
