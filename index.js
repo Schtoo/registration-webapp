@@ -30,6 +30,13 @@ let regInstance = RegNumbers(pool);
 
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'
+    // helpers: {
+    //     selectedTag: function() {
+    //       if (this.selected) {
+    //         return 'selected'
+    //       }
+    //     }
+    //   }
 }));
 
 app.set('view engine', 'handlebars');
@@ -93,16 +100,33 @@ app.get('/town/:whichTown', async function (req, res, next){
     try{
         let {whichTown} = req.params;
         let allTowns = await regInstance.forTowns();
-        
         let response = await regInstance.townFilter(whichTown);
         let registrationList = response.results; 
+
+        let townList = [];
+
+        for(let i=0;i<allTowns.length;i++){
+            let townIndex = allTowns[i];
+            let town =  {
+                starts_with:townIndex.starts_with,
+                town_name:townIndex.town_name,
+                selected: false
+            }
+            townList.push(town);
+            if(townIndex.starts_with == whichTown ){
+                town.selected = 'selected'
+            }
+        }
+         allTowns = townList  
+        // console.log(allTowns)
 
         if (response.status === 'error') {
             req.flash('errors', response.message);
         }
         res.render('home', {
-            registrationList,
-            allTowns
+            allTowns,
+            registrationList
+            
         })
     } catch (error) {
         next(error)
