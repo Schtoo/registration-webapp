@@ -64,6 +64,15 @@ describe('Registrations', async function(){
          let Malmsebury = await fromWorcester.townFilter('CK');
          assert.deepEqual(Malmsebury, {status: 'success', results: [{registration: 'CK 123 321, CK 321-543, CK 987659'}]});
      });
+     beforeEach (async function(){
+        await pool.query('delete from plates');
+     });
+    it('should give you a message for filtering in a town with no registration', async function(){
+        let msg = regNumbers(pool);
+        await msg.takeRegNumber('');
+        let errorMsg = await msg.townFilter('CA');
+        assert.deepEqual(errorMsg, {status: 'error', results: [], message: 'No registration number for this town'})
+    })
     it('should reset the entire database', async function(){
         let resetBtn = regNumbers(pool);
         let reset = await resetBtn.resetDb();

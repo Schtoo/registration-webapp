@@ -118,8 +118,6 @@ app.get('/town/:whichTown', async function (req, res, next){
             }
         }
          allTowns = townList  
-        // console.log(allTowns)
-
         if (response.status === 'error') {
             req.flash('errors', response.message);
         }
