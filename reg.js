@@ -1,10 +1,12 @@
 module.exports = function (pool) {
   // Adding the registration number
   async function takeRegNumber(regPlate) {
+    //console.log(regPlate);
     let whichTown = regPlate.toUpperCase().substr(0, 3).trim();
     let result = await pool.query('SELECT id FROM towns WHERE starts_with=$1', [whichTown]);
     if (result.rowCount > 0) {
       let duplicate = await pool.query('SELECT id FROM plates WHERE registration=$1', [regPlate]);
+      console.log(duplicate.rows);
       if (duplicate.rowCount > 0) {
         return 'Registration number already exists';
       }
